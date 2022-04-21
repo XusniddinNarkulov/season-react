@@ -1,17 +1,48 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+import DisplaySeason from "./DisplaySeason.js";
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+// const App = () => {
+//   return <div>Hello World</div>;
+// };
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { lat: null, long: null, errorMessage: "" };
+  }
+
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(
+      (e) => {
+        console.log(e.coords);
+        this.setState({ lat: e.coords.latitude });
+      },
+      (err) => {
+        this.setState({ errorMessage: err.message });
+      }
+    );
+  }
+
+  componentDidUpdate() {
+    console.log(this.state.lat);
+  }
+  getLocation() {
+    if (this.state.lat && !this.state.errorMessage) {
+      return <div>Latitude:{this.state.lat}</div>;
+    }
+    if (!this.state.lat && this.state.errorMessage) {
+      return <div>Latitude:{this.state.errorMessage}</div>;
+    } else {
+      return <div>Loading...</div>;
+    }
+  }
+  render() {
+    return (
+      <DisplaySeason lat={this.state.lat} error={this.state.errorMessage} />
+    );
+  }
+}
+
+ReactDOM.render(<App />, document.querySelector("#root"));
