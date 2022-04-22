@@ -8,27 +8,23 @@ class DisplaySeason extends React.Component {
   }
 
   getSeason(lat, month) {
+    let sunIcon = (
+      <i className="sun icon inverted yellow" style={{ color: "#FFE6CC" }}></i>
+    );
+    let summerText = "Let's hit the beach";
+    let snowIcon = (
+      <i
+        className="snowflake icon inverted teal "
+        style={{ color: "#DBE7FC" }}
+      ></i>
+    );
+    let winterText = "Burr,it's chilly";
+
     if (month > 2 && month < 9) {
-      return lat > 0
-        ? [
-            <i className="sun icon" style={{ color: "#FFE6CC" }}></i>,
-            "Let's hit the beach",
-          ]
-        : [
-            <i className="snowflake icon" style={{ color: "#DBE7FC" }}></i>,
-            "Burr,it's chilly",
-          ];
+      return lat > 0 ? [sunIcon, summerText] : [snowIcon, winterText];
     }
     if (month > 2 && month < 9) {
-      return lat < 0
-        ? [
-            <i className="snowflake icon" style={{ color: "#DBE7FC" }}></i>,
-            "Burr,it's chilly",
-          ]
-        : [
-            <i className="sun icon" style={{ color: "#FFE6CC" }}></i>,
-            "Let's hit the beach",
-          ];
+      return lat < 0 ? [snowIcon, winterText] : [sunIcon, summerText];
     }
   }
 
